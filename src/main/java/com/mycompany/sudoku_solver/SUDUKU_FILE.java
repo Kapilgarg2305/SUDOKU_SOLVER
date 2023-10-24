@@ -1,0 +1,2341 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package com.mycompany.sudoku_solver;
+
+import static java.awt.Color.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author ankit
+ */
+public class SUDUKU_FILE extends javax.swing.JFrame {
+   private String turn="1";
+   
+   
+   private boolean globalFlag=true;
+   
+   private String solvedBoard[][]={
+       {"2","9","8","5","1","6","7","3","4"},
+       {"4","1","3","2","7","8","5","6","9"},
+       {"7","5","6","3","4","9","1","2","8"},
+       {"8","2","1","4","3","5","6","9","7"},
+       {"5","3","4","6","9","7","2","8","1"},
+       {"9","6","7","1","8","2","3","4","5"},
+       {"1","4","2","8","5","3","9","7","6"},
+       {"3","7","5","9","6","4","8","1","2"},
+       {"6","8","9","7","2","1","4","5","3"}
+   };
+   
+   private void AssignTurn(JButton btn){
+       
+       JK1.setBackground(black);
+       JK2.setBackground(black);
+       JK3.setBackground(black);
+       JK4.setBackground(black);
+       JK5.setBackground(black);
+       JK6.setBackground(black);
+       JK7.setBackground(black);
+       JK8.setBackground(black);
+       JK9.setBackground(black);
+       
+
+       btn.setBackground(blue);}
+   
+   private void ResetGame(){
+       JButton predefinedbuttons[]={J4,J7,J8,J9,J10,J14,J15,J16,J18,J19,J21,J26,K5,K6,K8,K11,K12,K16,K17,
+           K20,K22,K23,L2,L5,L7,L9,L10,L13,L14,L18,L19,L20,L21,L25};
+       
+       JButton btns[][]={
+       {J1,J2,J3,J4,J5,J6,J7,J8,J9},
+       {J10,J11,J12,J13,J14,J15,J16,J17,J18},
+       {J19,J20,J21,J22,J23,J24,J25,J26,J27},
+       {K1,K2,K3,K4,K5,K6,K7,K8,K9},
+       {K10,K11,K12,K13,K14,K15,K16,K17,K18},
+       {K19,K20,K21,K22,K23,K24,K25,K26,K27},
+       {L1,L2,L3,L4,L5,L6,L7,L8,L9},
+       {L10,L11,L12,L13,L14,L15,L16,L17,L18},
+       {L19,L20,L21,L22,L23,L24,L25,L26,L27} };
+       
+       
+       for(int i=0;i<9;i++){
+           for(int j=0;j<9;j++){
+               boolean flag=true;
+               
+               for(int k=0;k<predefinedbuttons.length;k++){
+                   if(btns[i][j]==predefinedbuttons[k]) flag=false;
+               }
+               
+               if(flag==true){
+                   btns[i][j].setText("");
+                   
+                   btns[i][j].setForeground(black);
+                   btns[i][j].setBackground(white);
+               }
+           }
+       }
+   }
+   private void seeSolution(){
+        JButton predefinedbuttons[]={J4,J7,J8,J9,J10,J14,J15,J16,J18,J19,J21,J26,K5,K6,K8,K11,K12,K16,K17,
+           K20,K22,K23,L2,L5,L7,L9,L10,L13,L14,L18,L19,L20,L21,L25};
+       
+       JButton btns[][]={
+       {J1,J2,J3,J4,J5,J6,J7,J8,J9},
+       {J10,J11,J12,J13,J14,J15,J16,J17,J18},
+       {J19,J20,J21,J22,J23,J24,J25,J26,J27},
+       {K1,K2,K3,K4,K5,K6,K7,K8,K9},
+       {K10,K11,K12,K13,K14,K15,K16,K17,K18},
+       {K19,K20,K21,K22,K23,K24,K25,K26,K27},
+       {L1,L2,L3,L4,L5,L6,L7,L8,L9},
+       {L10,L11,L12,L13,L14,L15,L16,L17,L18},
+       {L19,L20,L21,L22,L23,L24,L25,L26,L27} };
+       
+      if(globalFlag==true)
+      {
+          globalFlag=false;
+          Solution.setText("Hide Soltuion");
+          for(int i=0;i<9;i++){
+           for(int j=0;j<9;j++){
+               boolean flag=true;
+               
+               for(int k=0;k<predefinedbuttons.length;k++)
+               {
+                   if(btns[i][j]==predefinedbuttons[k]) flag=false;
+               }
+                  if(flag==true)
+                  {
+                   btns[i][j].setText(solvedBoard[i][j]);
+                   btns[i][j].setForeground(black);
+                   btns[i][j].setBackground(white);
+                  }
+                              }}
+          
+      }
+      else
+      { Solution.setText("Solution");
+      globalFlag=true;
+      ResetGame();          
+      }
+       
+   }
+   private void CheckMoves(){
+        JButton btns[][]={
+       {J1,J2,J3,J4,J5,J6,J7,J8,J9},
+       {J10,J11,J12,J13,J14,J15,J16,J17,J18},
+       {J19,J20,J21,J22,J23,J24,J25,J26,J27},
+       {K1,K2,K3,K4,K5,K6,K7,K8,K9},
+       {K10,K11,K12,K13,K14,K15,K16,K17,K18},
+       {K19,K20,K21,K22,K23,K24,K25,K26,K27},
+       {L1,L2,L3,L4,L5,L6,L7,L8,L9},
+       {L10,L11,L12,L13,L14,L15,L16,L17,L18},
+       {L19,L20,L21,L22,L23,L24,L25,L26,L27} };
+        
+        for(int i=0;i<9;i++){
+           for(int j=0;j<9;j++){
+           if(btns[i][j].getText()!=solvedBoard[i][j]  && btns[i][j].getText()!=""){
+               btns[i][j].setBackground(red);
+           }
+           }}
+   }
+    /**
+     * Creates new form SUDUKU_FILE
+     */
+    public SUDUKU_FILE() {
+        initComponents();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jPanel4 = new javax.swing.JPanel();
+        J1 = new javax.swing.JButton();
+        J10 = new javax.swing.JButton();
+        J19 = new javax.swing.JButton();
+        J2 = new javax.swing.JButton();
+        J3 = new javax.swing.JButton();
+        J11 = new javax.swing.JButton();
+        J12 = new javax.swing.JButton();
+        J20 = new javax.swing.JButton();
+        J21 = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        J7 = new javax.swing.JButton();
+        J16 = new javax.swing.JButton();
+        J25 = new javax.swing.JButton();
+        J8 = new javax.swing.JButton();
+        J9 = new javax.swing.JButton();
+        J17 = new javax.swing.JButton();
+        J18 = new javax.swing.JButton();
+        J26 = new javax.swing.JButton();
+        J27 = new javax.swing.JButton();
+        jPanel12 = new javax.swing.JPanel();
+        J4 = new javax.swing.JButton();
+        J13 = new javax.swing.JButton();
+        J22 = new javax.swing.JButton();
+        J5 = new javax.swing.JButton();
+        J6 = new javax.swing.JButton();
+        J14 = new javax.swing.JButton();
+        J15 = new javax.swing.JButton();
+        J23 = new javax.swing.JButton();
+        J24 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        K4 = new javax.swing.JButton();
+        K13 = new javax.swing.JButton();
+        K22 = new javax.swing.JButton();
+        K5 = new javax.swing.JButton();
+        K6 = new javax.swing.JButton();
+        K14 = new javax.swing.JButton();
+        K15 = new javax.swing.JButton();
+        K23 = new javax.swing.JButton();
+        K24 = new javax.swing.JButton();
+        jPanel15 = new javax.swing.JPanel();
+        K1 = new javax.swing.JButton();
+        K10 = new javax.swing.JButton();
+        K19 = new javax.swing.JButton();
+        K2 = new javax.swing.JButton();
+        K3 = new javax.swing.JButton();
+        K11 = new javax.swing.JButton();
+        K12 = new javax.swing.JButton();
+        K20 = new javax.swing.JButton();
+        K21 = new javax.swing.JButton();
+        jPanel17 = new javax.swing.JPanel();
+        K7 = new javax.swing.JButton();
+        K16 = new javax.swing.JButton();
+        K25 = new javax.swing.JButton();
+        K8 = new javax.swing.JButton();
+        K9 = new javax.swing.JButton();
+        K17 = new javax.swing.JButton();
+        K18 = new javax.swing.JButton();
+        K26 = new javax.swing.JButton();
+        K27 = new javax.swing.JButton();
+        jPanel18 = new javax.swing.JPanel();
+        L7 = new javax.swing.JButton();
+        L16 = new javax.swing.JButton();
+        L25 = new javax.swing.JButton();
+        L8 = new javax.swing.JButton();
+        L9 = new javax.swing.JButton();
+        L17 = new javax.swing.JButton();
+        L18 = new javax.swing.JButton();
+        L26 = new javax.swing.JButton();
+        L27 = new javax.swing.JButton();
+        jPanel19 = new javax.swing.JPanel();
+        L1 = new javax.swing.JButton();
+        L10 = new javax.swing.JButton();
+        L19 = new javax.swing.JButton();
+        L2 = new javax.swing.JButton();
+        L3 = new javax.swing.JButton();
+        L11 = new javax.swing.JButton();
+        L12 = new javax.swing.JButton();
+        L20 = new javax.swing.JButton();
+        L21 = new javax.swing.JButton();
+        jPanel20 = new javax.swing.JPanel();
+        L4 = new javax.swing.JButton();
+        L13 = new javax.swing.JButton();
+        L22 = new javax.swing.JButton();
+        L5 = new javax.swing.JButton();
+        L6 = new javax.swing.JButton();
+        L14 = new javax.swing.JButton();
+        L15 = new javax.swing.JButton();
+        L23 = new javax.swing.JButton();
+        L24 = new javax.swing.JButton();
+        JK1 = new javax.swing.JButton();
+        JK2 = new javax.swing.JButton();
+        JK3 = new javax.swing.JButton();
+        JK4 = new javax.swing.JButton();
+        JK5 = new javax.swing.JButton();
+        JK6 = new javax.swing.JButton();
+        JK7 = new javax.swing.JButton();
+        JK8 = new javax.swing.JButton();
+        JK9 = new javax.swing.JButton();
+        Check = new javax.swing.JButton();
+        Solution = new javax.swing.JButton();
+        Exit = new javax.swing.JButton();
+        Reset = new javax.swing.JButton();
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SUDOKU");
+        setAlwaysOnTop(true);
+        setAutoRequestFocus(false);
+        setBackground(new java.awt.Color(204, 204, 204));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setLocation(new java.awt.Point(200, 0));
+        setResizable(false);
+        setSize(new java.awt.Dimension(500, 630));
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        J1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J1ActionPerformed(evt);
+            }
+        });
+
+        J10.setBackground(new java.awt.Color(153, 153, 255));
+        J10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J10.setForeground(new java.awt.Color(0, 51, 51));
+        J10.setText("4");
+        J10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J10ActionPerformed(evt);
+            }
+        });
+
+        J19.setBackground(new java.awt.Color(153, 153, 255));
+        J19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J19.setForeground(new java.awt.Color(0, 51, 51));
+        J19.setText("7");
+        J19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J19.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J19ActionPerformed(evt);
+            }
+        });
+
+        J2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J2ActionPerformed(evt);
+            }
+        });
+
+        J3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J3ActionPerformed(evt);
+            }
+        });
+
+        J11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J11ActionPerformed(evt);
+            }
+        });
+
+        J12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J12ActionPerformed(evt);
+            }
+        });
+
+        J20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J20ActionPerformed(evt);
+            }
+        });
+
+        J21.setBackground(new java.awt.Color(153, 153, 255));
+        J21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J21.setForeground(new java.awt.Color(0, 51, 51));
+        J21.setText("6");
+        J21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J21.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J21ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(J10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(J1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(J19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(J1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(J10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(J19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(J20, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(J21, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        J7.setBackground(new java.awt.Color(153, 153, 255));
+        J7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J7.setForeground(new java.awt.Color(0, 51, 51));
+        J7.setText("7");
+        J7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J7ActionPerformed(evt);
+            }
+        });
+
+        J16.setBackground(new java.awt.Color(153, 153, 255));
+        J16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J16.setForeground(new java.awt.Color(0, 51, 51));
+        J16.setText("5");
+        J16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J16ActionPerformed(evt);
+            }
+        });
+
+        J25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J25ActionPerformed(evt);
+            }
+        });
+
+        J8.setBackground(new java.awt.Color(153, 153, 255));
+        J8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J8.setForeground(new java.awt.Color(0, 51, 51));
+        J8.setText("3");
+        J8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J8ActionPerformed(evt);
+            }
+        });
+
+        J9.setBackground(new java.awt.Color(153, 153, 255));
+        J9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J9.setForeground(new java.awt.Color(0, 51, 51));
+        J9.setText("4");
+        J9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J9ActionPerformed(evt);
+            }
+        });
+
+        J17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J17ActionPerformed(evt);
+            }
+        });
+
+        J18.setBackground(new java.awt.Color(153, 153, 255));
+        J18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J18.setForeground(new java.awt.Color(0, 51, 51));
+        J18.setText("9");
+        J18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J18.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J18ActionPerformed(evt);
+            }
+        });
+
+        J26.setBackground(new java.awt.Color(153, 153, 255));
+        J26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J26.setForeground(new java.awt.Color(0, 51, 51));
+        J26.setText("2");
+        J26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J26.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J26ActionPerformed(evt);
+            }
+        });
+
+        J27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J27ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(J16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(J7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(J25, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J27, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(J7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(J16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J17, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J18, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(J25, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(J26, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(J27, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        J4.setBackground(new java.awt.Color(153, 153, 255));
+        J4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J4.setForeground(new java.awt.Color(0, 51, 51));
+        J4.setText("5");
+        J4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J4ActionPerformed(evt);
+            }
+        });
+
+        J13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J13ActionPerformed(evt);
+            }
+        });
+
+        J22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J22ActionPerformed(evt);
+            }
+        });
+
+        J5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J5ActionPerformed(evt);
+            }
+        });
+
+        J6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J6ActionPerformed(evt);
+            }
+        });
+
+        J14.setBackground(new java.awt.Color(153, 153, 255));
+        J14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J14.setForeground(new java.awt.Color(0, 51, 51));
+        J14.setText("7");
+        J14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J14ActionPerformed(evt);
+            }
+        });
+
+        J15.setBackground(new java.awt.Color(153, 153, 255));
+        J15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J15.setForeground(new java.awt.Color(0, 51, 51));
+        J15.setText("8");
+        J15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J15ActionPerformed(evt);
+            }
+        });
+
+        J23.setBackground(new java.awt.Color(153, 153, 255));
+        J23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J23.setForeground(new java.awt.Color(0, 51, 51));
+        J23.setText("4");
+        J23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J23.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        J23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J23ActionPerformed(evt);
+            }
+        });
+
+        J24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        J24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        J24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J24ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(J13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(J4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(J22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J23, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(J24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(J4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(J13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(J22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(J23, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(J24, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        K4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K4ActionPerformed(evt);
+            }
+        });
+
+        K13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K13ActionPerformed(evt);
+            }
+        });
+
+        K22.setBackground(new java.awt.Color(153, 153, 255));
+        K22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K22.setForeground(new java.awt.Color(0, 51, 51));
+        K22.setText("1");
+        K22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K22.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K22ActionPerformed(evt);
+            }
+        });
+
+        K5.setBackground(new java.awt.Color(153, 153, 255));
+        K5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K5.setForeground(new java.awt.Color(0, 51, 51));
+        K5.setText("3");
+        K5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K5ActionPerformed(evt);
+            }
+        });
+
+        K6.setBackground(new java.awt.Color(153, 153, 255));
+        K6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K6.setForeground(new java.awt.Color(0, 51, 51));
+        K6.setText("5");
+        K6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K6ActionPerformed(evt);
+            }
+        });
+
+        K14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K14ActionPerformed(evt);
+            }
+        });
+
+        K15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K15ActionPerformed(evt);
+            }
+        });
+
+        K23.setBackground(new java.awt.Color(153, 153, 255));
+        K23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K23.setForeground(new java.awt.Color(0, 51, 51));
+        K23.setText("8");
+        K23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K23.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K23ActionPerformed(evt);
+            }
+        });
+
+        K24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K24ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(K13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(K4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(K22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K23, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(K4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(K13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(K22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(K23, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(K24, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        K1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K1ActionPerformed(evt);
+            }
+        });
+
+        K10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K10ActionPerformed(evt);
+            }
+        });
+
+        K19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K19ActionPerformed(evt);
+            }
+        });
+
+        K2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K2ActionPerformed(evt);
+            }
+        });
+
+        K3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K3ActionPerformed(evt);
+            }
+        });
+
+        K11.setBackground(new java.awt.Color(153, 153, 255));
+        K11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K11.setForeground(new java.awt.Color(0, 51, 51));
+        K11.setText("3");
+        K11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K11ActionPerformed(evt);
+            }
+        });
+
+        K12.setBackground(new java.awt.Color(153, 153, 255));
+        K12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K12.setForeground(new java.awt.Color(0, 51, 51));
+        K12.setText("4");
+        K12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K12.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K12ActionPerformed(evt);
+            }
+        });
+
+        K20.setBackground(new java.awt.Color(153, 153, 255));
+        K20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K20.setForeground(new java.awt.Color(0, 51, 51));
+        K20.setText("6");
+        K20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K20ActionPerformed(evt);
+            }
+        });
+
+        K21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K21ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(K10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(K1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(K19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(K1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(K10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(K19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(K20, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(K21, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        K7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K7ActionPerformed(evt);
+            }
+        });
+
+        K16.setBackground(new java.awt.Color(153, 153, 255));
+        K16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K16.setForeground(new java.awt.Color(0, 51, 51));
+        K16.setText("2");
+        K16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K16ActionPerformed(evt);
+            }
+        });
+
+        K25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K25ActionPerformed(evt);
+            }
+        });
+
+        K8.setBackground(new java.awt.Color(153, 153, 255));
+        K8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K8.setForeground(new java.awt.Color(0, 51, 51));
+        K8.setText("9");
+        K8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K8ActionPerformed(evt);
+            }
+        });
+
+        K9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K9ActionPerformed(evt);
+            }
+        });
+
+        K17.setBackground(new java.awt.Color(153, 153, 255));
+        K17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K17.setForeground(new java.awt.Color(0, 51, 51));
+        K17.setText("8");
+        K17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K17.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        K17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K17ActionPerformed(evt);
+            }
+        });
+
+        K18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K18ActionPerformed(evt);
+            }
+        });
+
+        K26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K26ActionPerformed(evt);
+            }
+        });
+
+        K27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        K27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        K27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                K27ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(K16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(K7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(K25, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(K27, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0))
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(K7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(K16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K17, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(K18, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(K25, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(K26, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(K27, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        L7.setBackground(new java.awt.Color(153, 153, 255));
+        L7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L7.setForeground(new java.awt.Color(0, 51, 51));
+        L7.setText("9");
+        L7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L7ActionPerformed(evt);
+            }
+        });
+
+        L16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L16ActionPerformed(evt);
+            }
+        });
+
+        L25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L25ActionPerformed(evt);
+            }
+        });
+
+        L8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L8ActionPerformed(evt);
+            }
+        });
+
+        L9.setBackground(new java.awt.Color(153, 153, 255));
+        L9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L9.setForeground(new java.awt.Color(0, 51, 51));
+        L9.setText("6");
+        L9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L9ActionPerformed(evt);
+            }
+        });
+
+        L17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L17ActionPerformed(evt);
+            }
+        });
+
+        L18.setBackground(new java.awt.Color(153, 153, 255));
+        L18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L18.setForeground(new java.awt.Color(0, 51, 51));
+        L18.setText("2");
+        L18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L18.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L18ActionPerformed(evt);
+            }
+        });
+
+        L26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L26ActionPerformed(evt);
+            }
+        });
+
+        L27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L27ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addComponent(L16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addComponent(L7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addComponent(L25, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L27, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(L7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(L16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L17, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L18, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(L25, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(L26, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(L27, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        L1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L1ActionPerformed(evt);
+            }
+        });
+
+        L10.setBackground(new java.awt.Color(153, 153, 255));
+        L10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L10.setForeground(new java.awt.Color(0, 51, 51));
+        L10.setText("3");
+        L10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L10ActionPerformed(evt);
+            }
+        });
+
+        L19.setBackground(new java.awt.Color(153, 153, 255));
+        L19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L19.setForeground(new java.awt.Color(0, 51, 51));
+        L19.setText("6");
+        L19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L19.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L19ActionPerformed(evt);
+            }
+        });
+
+        L2.setBackground(new java.awt.Color(153, 153, 255));
+        L2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L2.setForeground(new java.awt.Color(0, 51, 51));
+        L2.setText("4");
+        L2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L2ActionPerformed(evt);
+            }
+        });
+
+        L3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L3ActionPerformed(evt);
+            }
+        });
+
+        L11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L11ActionPerformed(evt);
+            }
+        });
+
+        L12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L12ActionPerformed(evt);
+            }
+        });
+
+        L20.setBackground(new java.awt.Color(153, 153, 255));
+        L20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L20.setForeground(new java.awt.Color(0, 51, 51));
+        L20.setText("8");
+        L20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L20ActionPerformed(evt);
+            }
+        });
+
+        L21.setBackground(new java.awt.Color(153, 153, 255));
+        L21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L21.setForeground(new java.awt.Color(0, 51, 51));
+        L21.setText("9");
+        L21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L21.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L21ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(L10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(L1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(L19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(L1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(L10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(L19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(L20, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(L21, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        jPanel20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        L4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L4ActionPerformed(evt);
+            }
+        });
+
+        L13.setBackground(new java.awt.Color(153, 153, 255));
+        L13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L13.setForeground(new java.awt.Color(0, 51, 51));
+        L13.setText("9");
+        L13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L13ActionPerformed(evt);
+            }
+        });
+
+        L22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L22ActionPerformed(evt);
+            }
+        });
+
+        L5.setBackground(new java.awt.Color(153, 153, 255));
+        L5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L5.setForeground(new java.awt.Color(0, 51, 51));
+        L5.setText("5");
+        L5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L5ActionPerformed(evt);
+            }
+        });
+
+        L6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L6ActionPerformed(evt);
+            }
+        });
+
+        L14.setBackground(new java.awt.Color(153, 153, 255));
+        L14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L14.setForeground(new java.awt.Color(0, 51, 51));
+        L14.setText("6");
+        L14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L14ActionPerformed(evt);
+            }
+        });
+
+        L15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L15ActionPerformed(evt);
+            }
+        });
+
+        L23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L23ActionPerformed(evt);
+            }
+        });
+
+        L24.setBackground(new java.awt.Color(153, 153, 255));
+        L24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        L24.setForeground(new java.awt.Color(0, 51, 51));
+        L24.setText("1");
+        L24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        L24.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        L24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                L24ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addComponent(L13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addComponent(L4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addComponent(L22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L23, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(L24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(L4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(L13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(L15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(L22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(L23, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(L24, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        JK1.setBackground(new java.awt.Color(0, 0, 255));
+        JK1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK1.setForeground(new java.awt.Color(255, 255, 255));
+        JK1.setText("1");
+        JK1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK1.setBorderPainted(false);
+        JK1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK1ActionPerformed(evt);
+            }
+        });
+
+        JK2.setBackground(new java.awt.Color(0, 0, 0));
+        JK2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK2.setForeground(new java.awt.Color(255, 255, 255));
+        JK2.setText("2");
+        JK2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK2.setBorderPainted(false);
+        JK2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK2ActionPerformed(evt);
+            }
+        });
+
+        JK3.setBackground(new java.awt.Color(0, 0, 0));
+        JK3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK3.setForeground(new java.awt.Color(255, 255, 255));
+        JK3.setText("3");
+        JK3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK3.setBorderPainted(false);
+        JK3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK3ActionPerformed(evt);
+            }
+        });
+
+        JK4.setBackground(new java.awt.Color(0, 0, 0));
+        JK4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK4.setForeground(new java.awt.Color(255, 255, 255));
+        JK4.setText("4");
+        JK4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK4.setBorderPainted(false);
+        JK4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK4ActionPerformed(evt);
+            }
+        });
+
+        JK5.setBackground(new java.awt.Color(0, 0, 0));
+        JK5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK5.setForeground(new java.awt.Color(255, 255, 255));
+        JK5.setText("5");
+        JK5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK5.setBorderPainted(false);
+        JK5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK5ActionPerformed(evt);
+            }
+        });
+
+        JK6.setBackground(new java.awt.Color(0, 0, 0));
+        JK6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK6.setForeground(new java.awt.Color(255, 255, 255));
+        JK6.setText("6");
+        JK6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK6.setBorderPainted(false);
+        JK6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK6ActionPerformed(evt);
+            }
+        });
+
+        JK7.setBackground(new java.awt.Color(0, 0, 0));
+        JK7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK7.setForeground(new java.awt.Color(255, 255, 255));
+        JK7.setText("7");
+        JK7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK7.setBorderPainted(false);
+        JK7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK7ActionPerformed(evt);
+            }
+        });
+
+        JK8.setBackground(new java.awt.Color(0, 0, 0));
+        JK8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK8.setForeground(new java.awt.Color(255, 255, 255));
+        JK8.setText("8");
+        JK8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK8.setBorderPainted(false);
+        JK8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK8ActionPerformed(evt);
+            }
+        });
+
+        JK9.setBackground(new java.awt.Color(0, 0, 0));
+        JK9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JK9.setForeground(new java.awt.Color(255, 255, 255));
+        JK9.setText("9");
+        JK9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JK9.setBorderPainted(false);
+        JK9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JK9ActionPerformed(evt);
+            }
+        });
+
+        Check.setBackground(new java.awt.Color(51, 255, 0));
+        Check.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Check.setText("Check Moves");
+        Check.setBorder(null);
+        Check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckActionPerformed(evt);
+            }
+        });
+
+        Solution.setBackground(new java.awt.Color(255, 255, 51));
+        Solution.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Solution.setText("Solution");
+        Solution.setBorder(null);
+        Solution.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SolutionActionPerformed(evt);
+            }
+        });
+
+        Exit.setBackground(new java.awt.Color(255, 0, 0));
+        Exit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Exit.setText("Exit");
+        Exit.setBorder(null);
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
+
+        Reset.setBackground(new java.awt.Color(0, 204, 204));
+        Reset.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Reset.setText("Reset");
+        Reset.setBorder(null);
+        Reset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ResetActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
+                                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(20, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(Check, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(47, 47, 47)
+                                                .addComponent(JK8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(JK9, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(19, 19, 19))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(JK1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)
+                                .addComponent(JK2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Reset, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(JK3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)
+                                .addComponent(JK4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)
+                                .addComponent(JK5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)
+                                .addComponent(JK6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(Solution, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25)
+                                .addComponent(Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(14, 14, 14)
+                        .addComponent(JK7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JK1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JK9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Check, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(Solution, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(Exit, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(Reset, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void JK1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK1ActionPerformed
+  AssignTurn(JK1);
+  turn="1";
+  
+    }//GEN-LAST:event_JK1ActionPerformed
+
+    private void JK8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK8ActionPerformed
+        // TODO add your handling code here:
+        AssignTurn(JK8);
+  turn="8";
+    }//GEN-LAST:event_JK8ActionPerformed
+
+    private void J9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J9ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code her e:
+    }//GEN-LAST:event_J9ActionPerformed
+
+    private void J24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J24ActionPerformed
+J24.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J24ActionPerformed
+
+    private void J26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J26ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J26ActionPerformed
+
+    private void K1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K1ActionPerformed
+K1.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K1ActionPerformed
+
+    private void K12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K12ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K12ActionPerformed
+
+    private void K20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K20ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K20ActionPerformed
+
+    private void L5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L5ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L5ActionPerformed
+
+    private void L3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L3ActionPerformed
+L3.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L3ActionPerformed
+
+    private void L15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L15ActionPerformed
+L15.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L15ActionPerformed
+
+    private void L22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L22ActionPerformed
+L22.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L22ActionPerformed
+
+    private void K14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K14ActionPerformed
+K14.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K14ActionPerformed
+
+    private void K6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K6ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K6ActionPerformed
+
+    private void K8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K8ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K8ActionPerformed
+
+    private void K9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K9ActionPerformed
+K9.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K9ActionPerformed
+
+    private void JK2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK2ActionPerformed
+AssignTurn(JK2);
+  turn="2";        // TODO add your handling code here:
+    }//GEN-LAST:event_JK2ActionPerformed
+
+    private void JK4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK4ActionPerformed
+AssignTurn(JK4);
+  turn="4";        // TODO add your handling code here:
+    }//GEN-LAST:event_JK4ActionPerformed
+
+    private void CheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckActionPerformed
+ CheckMoves();        // TODO add your handling code here:
+    }//GEN-LAST:event_CheckActionPerformed
+
+    private void L16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L16ActionPerformed
+L16.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L16ActionPerformed
+
+    private void J21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J21ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J21ActionPerformed
+
+    private void L2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L2ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L2ActionPerformed
+
+    private void L20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L20ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L20ActionPerformed
+
+    private void L14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L14ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L14ActionPerformed
+
+    private void L24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L24ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L24ActionPerformed
+
+    private void L18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L18ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L18ActionPerformed
+
+    private void J10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J10ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J10ActionPerformed
+
+    private void J1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J1ActionPerformed
+        // TODO add your handling code here:
+        J1.setText(turn);
+        
+      J1.setBackground(white);
+    }//GEN-LAST:event_J1ActionPerformed
+
+    private void J4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J4ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_J4ActionPerformed
+
+    private void J7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J7ActionPerformed
+      JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+      // TODO add your handling code here:
+    }//GEN-LAST:event_J7ActionPerformed
+
+    private void J8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J8ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J8ActionPerformed
+
+    private void J14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J14ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J14ActionPerformed
+
+    private void J15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J15ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J15ActionPerformed
+
+    private void J16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J16ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J16ActionPerformed
+
+    private void J18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J18ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J18ActionPerformed
+
+    private void J19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J19ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J19ActionPerformed
+
+    private void J23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J23ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J23ActionPerformed
+
+    private void K5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K5ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K5ActionPerformed
+
+    private void K11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K11ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K11ActionPerformed
+
+    private void K16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K16ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K16ActionPerformed
+
+    private void K17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K17ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K17ActionPerformed
+
+    private void K22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K22ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K22ActionPerformed
+
+    private void K23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K23ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_K23ActionPerformed
+
+    private void L7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L7ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L7ActionPerformed
+
+    private void L9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L9ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L9ActionPerformed
+
+    private void L10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L10ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L10ActionPerformed
+
+    private void L13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L13ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L13ActionPerformed
+
+    private void L19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L19ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L19ActionPerformed
+
+    private void L21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L21ActionPerformed
+JOptionPane.showMessageDialog(this,"This place is already allocated","Message",JOptionPane.INFORMATION_MESSAGE);
+// TODO add your handling code here:
+    }//GEN-LAST:event_L21ActionPerformed
+
+    private void J2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J2ActionPerformed
+J2.setText(turn);
+// TODO add your handling code here:
+    }//GEN-LAST:event_J2ActionPerformed
+
+    private void J3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J3ActionPerformed
+J3.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J3ActionPerformed
+
+    private void J5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J5ActionPerformed
+J5.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J5ActionPerformed
+
+    private void J6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J6ActionPerformed
+J6.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J6ActionPerformed
+
+    private void J11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J11ActionPerformed
+J11.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J11ActionPerformed
+
+    private void J12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J12ActionPerformed
+J12.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J12ActionPerformed
+
+    private void J13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J13ActionPerformed
+J13.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J13ActionPerformed
+
+    private void J17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J17ActionPerformed
+J17.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J17ActionPerformed
+
+    private void J20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J20ActionPerformed
+J20.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J20ActionPerformed
+
+    private void J22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J22ActionPerformed
+J22.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J22ActionPerformed
+
+    private void J25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J25ActionPerformed
+J25.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J25ActionPerformed
+
+    private void J27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J27ActionPerformed
+J27.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_J27ActionPerformed
+
+    private void K2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K2ActionPerformed
+K2.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K2ActionPerformed
+
+    private void K3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K3ActionPerformed
+K3.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K3ActionPerformed
+
+    private void K4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K4ActionPerformed
+K4.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K4ActionPerformed
+
+    private void K7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K7ActionPerformed
+K7.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K7ActionPerformed
+
+    private void K10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K10ActionPerformed
+K10.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K10ActionPerformed
+
+    private void K13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K13ActionPerformed
+K13.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K13ActionPerformed
+
+    private void K15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K15ActionPerformed
+K15.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K15ActionPerformed
+
+    private void K18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K18ActionPerformed
+K18.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K18ActionPerformed
+
+    private void K19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K19ActionPerformed
+K19.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K19ActionPerformed
+
+    private void K21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K21ActionPerformed
+K21.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K21ActionPerformed
+
+    private void K24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K24ActionPerformed
+K24.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K24ActionPerformed
+
+    private void K25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K25ActionPerformed
+  K25.setText(turn);      // TODO add your handling code here:
+    }//GEN-LAST:event_K25ActionPerformed
+
+    private void K26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K26ActionPerformed
+K26.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K26ActionPerformed
+
+    private void K27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_K27ActionPerformed
+K27.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_K27ActionPerformed
+
+    private void L1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L1ActionPerformed
+L1.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L1ActionPerformed
+
+    private void L4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L4ActionPerformed
+L4.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L4ActionPerformed
+
+    private void L6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L6ActionPerformed
+L6.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L6ActionPerformed
+
+    private void L8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L8ActionPerformed
+L8.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L8ActionPerformed
+
+    private void L11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L11ActionPerformed
+L11.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L11ActionPerformed
+
+    private void L12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L12ActionPerformed
+L12.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L12ActionPerformed
+
+    private void L17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L17ActionPerformed
+L17.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L17ActionPerformed
+
+    private void L23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L23ActionPerformed
+L23.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L23ActionPerformed
+
+    private void L25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L25ActionPerformed
+L25.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L25ActionPerformed
+
+    private void L27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L27ActionPerformed
+        L27.setText(turn);// TODO add your handling code here:
+    }//GEN-LAST:event_L27ActionPerformed
+
+    private void L26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_L26ActionPerformed
+L26.setText(turn);        // TODO add your handling code here:
+    }//GEN-LAST:event_L26ActionPerformed
+
+    private void JK3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK3ActionPerformed
+AssignTurn(JK3);
+  turn="3";        // TODO add your handling code here:
+    }//GEN-LAST:event_JK3ActionPerformed
+
+    private void JK5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK5ActionPerformed
+AssignTurn(JK5);
+  turn="5";        // TODO add your handling code here:
+    }//GEN-LAST:event_JK5ActionPerformed
+
+    private void JK6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK6ActionPerformed
+AssignTurn(JK6);
+  turn="6";        // TODO add your handling code here:
+    }//GEN-LAST:event_JK6ActionPerformed
+
+    private void JK7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK7ActionPerformed
+AssignTurn(JK7);
+  turn="7";        // TODO add your handling code here:
+    }//GEN-LAST:event_JK7ActionPerformed
+
+    private void JK9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JK9ActionPerformed
+AssignTurn(JK9);
+  turn="9";        // TODO add your handling code here:
+    }//GEN-LAST:event_JK9ActionPerformed
+
+    private void ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetActionPerformed
+        // TODO add your handling code here:
+        JFrame frame=new JFrame("Reset");
+        if(JOptionPane.showConfirmDialog(frame,"Confirm if you want to reset te game","Sudoku Puzzle",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION){
+            ResetGame();
+        }
+        
+    }//GEN-LAST:event_ResetActionPerformed
+
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+JFrame frame=new JFrame("Exit");
+        if(JOptionPane.showConfirmDialog(frame,"Confirm if you want to exit te game","Sudoku Puzzle",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION){
+           
+             System.exit(0);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_ExitActionPerformed
+
+    private void SolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolutionActionPerformed
+ seeSolution();        // TODO add your handling code here:
+    }//GEN-LAST:event_SolutionActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(SUDUKU_FILE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SUDUKU_FILE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SUDUKU_FILE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(SUDUKU_FILE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new SUDUKU_FILE().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Check;
+    private javax.swing.JButton Exit;
+    private javax.swing.JButton J1;
+    private javax.swing.JButton J10;
+    private javax.swing.JButton J11;
+    private javax.swing.JButton J12;
+    private javax.swing.JButton J13;
+    private javax.swing.JButton J14;
+    private javax.swing.JButton J15;
+    private javax.swing.JButton J16;
+    private javax.swing.JButton J17;
+    private javax.swing.JButton J18;
+    private javax.swing.JButton J19;
+    private javax.swing.JButton J2;
+    private javax.swing.JButton J20;
+    private javax.swing.JButton J21;
+    private javax.swing.JButton J22;
+    private javax.swing.JButton J23;
+    private javax.swing.JButton J24;
+    private javax.swing.JButton J25;
+    private javax.swing.JButton J26;
+    private javax.swing.JButton J27;
+    private javax.swing.JButton J3;
+    private javax.swing.JButton J4;
+    private javax.swing.JButton J5;
+    private javax.swing.JButton J6;
+    private javax.swing.JButton J7;
+    private javax.swing.JButton J8;
+    private javax.swing.JButton J9;
+    private javax.swing.JButton JK1;
+    private javax.swing.JButton JK2;
+    private javax.swing.JButton JK3;
+    private javax.swing.JButton JK4;
+    private javax.swing.JButton JK5;
+    private javax.swing.JButton JK6;
+    private javax.swing.JButton JK7;
+    private javax.swing.JButton JK8;
+    private javax.swing.JButton JK9;
+    private javax.swing.JButton K1;
+    private javax.swing.JButton K10;
+    private javax.swing.JButton K11;
+    private javax.swing.JButton K12;
+    private javax.swing.JButton K13;
+    private javax.swing.JButton K14;
+    private javax.swing.JButton K15;
+    private javax.swing.JButton K16;
+    private javax.swing.JButton K17;
+    private javax.swing.JButton K18;
+    private javax.swing.JButton K19;
+    private javax.swing.JButton K2;
+    private javax.swing.JButton K20;
+    private javax.swing.JButton K21;
+    private javax.swing.JButton K22;
+    private javax.swing.JButton K23;
+    private javax.swing.JButton K24;
+    private javax.swing.JButton K25;
+    private javax.swing.JButton K26;
+    private javax.swing.JButton K27;
+    private javax.swing.JButton K3;
+    private javax.swing.JButton K4;
+    private javax.swing.JButton K5;
+    private javax.swing.JButton K6;
+    private javax.swing.JButton K7;
+    private javax.swing.JButton K8;
+    private javax.swing.JButton K9;
+    private javax.swing.JButton L1;
+    private javax.swing.JButton L10;
+    private javax.swing.JButton L11;
+    private javax.swing.JButton L12;
+    private javax.swing.JButton L13;
+    private javax.swing.JButton L14;
+    private javax.swing.JButton L15;
+    private javax.swing.JButton L16;
+    private javax.swing.JButton L17;
+    private javax.swing.JButton L18;
+    private javax.swing.JButton L19;
+    private javax.swing.JButton L2;
+    private javax.swing.JButton L20;
+    private javax.swing.JButton L21;
+    private javax.swing.JButton L22;
+    private javax.swing.JButton L23;
+    private javax.swing.JButton L24;
+    private javax.swing.JButton L25;
+    private javax.swing.JButton L26;
+    private javax.swing.JButton L27;
+    private javax.swing.JButton L3;
+    private javax.swing.JButton L4;
+    private javax.swing.JButton L5;
+    private javax.swing.JButton L6;
+    private javax.swing.JButton L7;
+    private javax.swing.JButton L8;
+    private javax.swing.JButton L9;
+    private javax.swing.JButton Reset;
+    private javax.swing.JButton Solution;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel4;
+    // End of variables declaration//GEN-END:variables
+}
